@@ -1,10 +1,11 @@
 export function buildStandaloneHtml(title: string, bodyHtml: string): string {
+  const escapedTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${title}</title>
+  <title>${escapedTitle}</title>
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; }
     article { max-width: 46rem; margin: auto; }

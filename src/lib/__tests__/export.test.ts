@@ -13,4 +13,9 @@ describe('buildStandaloneHtml', () => {
     const html = buildStandaloneHtml('t', renderMarkdown('<img src=x onerror=alert(1)>'));
     expect(html).not.toContain('onerror=');
   });
+  it('escapes HTML in the title', () => {
+    const html = buildStandaloneHtml('t</title><script>alert(1)</script>', '<p>x</p>');
+    expect(html).not.toContain('<script');
+    expect(html).toContain('&lt;/title&gt;&lt;script&gt;');
+  });
 });
