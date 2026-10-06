@@ -4,7 +4,7 @@ import { renderMarkdown, suggestFileName } from '../markdown';
 describe('renderMarkdown', () => {
   it('renders GFM', () => {
     expect(renderMarkdown('**bold** and `code`')).toContain('<strong>bold</strong>');
-    expect(renderMarkdown('```js\ncode\n```')).toContain('<code>');
+    expect(renderMarkdown('```js\ncode\n```')).toContain('<code');
   });
   it('strips script tags and event handlers', () => {
     const html = renderMarkdown('<script>alert(1)</script>\n<img src=x onerror=alert(1)>');

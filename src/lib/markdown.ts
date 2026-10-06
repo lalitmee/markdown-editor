@@ -4,8 +4,7 @@ import { Marked } from 'marked';
 const markdown = new Marked({ gfm: true, breaks: false });
 
 export function renderMarkdown(text: string): string {
-  const html = markdown.parse(text, { async: false }).replace(/<code class="language-[^"]*">/g, '<code>');
-  return DOMPurify.sanitize(html);
+  return DOMPurify.sanitize(markdown.parse(text, { async: false }));
 }
 
 export function suggestFileName(text: string): string {
