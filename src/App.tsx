@@ -3,6 +3,7 @@ import EditorPane from './components/EditorPane';
 import PreviewPane from './components/PreviewPane';
 import TopBar from './components/TopBar';
 import Toast from './components/Toast';
+import Toolbar from './components/Toolbar';
 import { renderMarkdown, suggestFileName } from './lib/markdown';
 import { loadDraft, saveDraft } from './lib/autosave';
 import { mapFsError, openFile, saveFile } from './lib/files';
@@ -24,14 +25,6 @@ const LINE_PREFIXES: Partial<Record<FormatOp, string>> = {
   quote: '> ',
   bullet: '- ',
   numbered: '1. ',
-};
-
-// Mod+key → format op. K maps to link (editor convention), not browser search.
-const FORMAT_KEYS: Partial<Record<string, FormatOp>> = {
-  b: 'bold',
-  i: 'italic',
-  k: 'link',
-  e: 'code',
 };
 
 // files.ts throws `new Error(mappedCopy)`, so the message is already exact
@@ -129,23 +122,15 @@ export default function App() {
     });
   };
 
-  // Formatting shortcuts act while focus is in the editor or on a formatting
-  // button (so a just-clicked button keeps the shortcut working). Save/Open act
-  // from anywhere. Re-attached on text/fileHandle so closures see fresh values.
+  // Save/Open act from anywhere (spec §3.4); format shortcuts live on the
+  // textarea keydown in EditorPane. Re-attached on text/fileHandle so the
+  // closures see fresh values.
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey && event.ctrlKey) return; // weird combos: leave alone
       if (!(event.metaKey || event.ctrlKey)) return;
       const key = event.key.toLowerCase();
-      const op = FORMAT_KEYS[key];
-      if (op) {
-        event.preventDefault();
-        const target = event.target;
-        const inEditor =
-          target === textareaRef.current ||
-          (target instanceof Element && target.closest('.format-toolbar') !== null);
-        if (inEditor) applyFormat(op);
-      } else if (key === 's') {
+      if (key === 's') {
         event.preventDefault();
         void handleSave();
       } else if (key === 'o') {
@@ -166,8 +151,9 @@ export default function App() {
         onExport={handleExport}
         onToggleTheme={handleToggleTheme}
       />
-      {/* Shell row kept by the grid; the formatting toolbar renders inside EditorPane. */}
-      <div className="app-toolbar" />
+      <div className="app-toolbar">
+        <Toolbar onFormat={applyFormat} />
+      </div>
       <div className="app-main">
         <EditorPane text={text} onTextChange={setText} textareaRef={textareaRef} onFormat={applyFormat} />
         <PreviewPane html={html} />
