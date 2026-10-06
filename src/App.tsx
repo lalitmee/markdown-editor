@@ -11,9 +11,10 @@ import { downloadHtml } from './lib/export';
 type Tone = 'info' | 'error';
 
 // files.ts throws `new Error(mappedCopy)`, so the message is already exact
-// copy; mapFsError covers any raw DOMException that slips through (null = abort = silent).
+// copy. Raw DOMExceptions (even though `instanceof Error`) go through mapFsError:
+// sanctioned copy or null = abort = silent.
 const errorMessage = (e: unknown): string | null =>
-  (e instanceof Error && e.message) || mapFsError(e);
+  (e instanceof Error && !(e instanceof DOMException) && e.message) || mapFsError(e);
 
 export default function App() {
   const [initialDraft] = useState(loadDraft);
@@ -59,11 +60,10 @@ export default function App() {
     try {
       const handle = await saveFile(text, fileHandle);
       if (handle === null) return; // picker cancelled: silent
-      const name = handle.name || fileName;
       setFileHandle(handle);
-      setFileName(name);
-      saveDraft({ text, fileName: name });
-      showToast(`Saved ${name}`, 'info');
+      setFileName(handle.name);
+      saveDraft({ text, fileName: handle.name });
+      showToast(`Saved ${handle.name}`, 'info');
     } catch (e) {
       showToast(errorMessage(e), 'error');
     }
