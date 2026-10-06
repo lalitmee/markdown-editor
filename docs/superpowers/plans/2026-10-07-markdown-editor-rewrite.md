@@ -185,7 +185,7 @@ describe('prefixLines', () => {
   it('prefixes only the cursor line when collapsed mid-line', () => {
     const r = prefixLines('one\ntwo', 5, 5, '## ');
     expect(r.text).toBe('one\n## two');
-    expect(r.selectionStart).toBe(9);
+    expect(r.selectionStart).toBe(8);
   });
 });
 ```
@@ -197,7 +197,7 @@ Expected: FAIL — `selection.ts` does not exist.
 
 - [ ] **Step 3: Implement `src/lib/selection.ts`**
 
-`wrapSelection`: insert `open` at `start`, `close` at `end`; inner selection = `[start + open.length, start + open.length + (end - start)]`. `prefixLines`: compute line boundaries intersecting `[start, end)` (or the cursor's line when `start === end`), insert `prefix` at each line start, shift selection by `prefix.length` per inserted prefix (cursor lands after the prefix on its own line). Pure string/array manipulation, no DOM.
+`wrapSelection`: insert `open` at `start`, `close` at `end`; inner selection = `[start + open.length, start + open.length + (end - start)]`. `prefixLines`: compute line boundaries intersecting `[start, end)` (or the cursor's line when `start === end`), insert `prefix` at each line start; every position at or after an inserted prefix shifts by `prefix.length`, so the cursor keeps its relative position just after the prefix on its line. Pure string/array manipulation, no DOM.
 
 - [ ] **Step 4: Run tests to verify they pass**
 
