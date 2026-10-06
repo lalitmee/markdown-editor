@@ -65,6 +65,25 @@ select {
   padding: 12px 16px;
 }
 
+/* Top bar internals: identity column left, icon actions right. */
+.app-bar-identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.app-bar-file {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-bar-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
 /* Toolbar row: a wrapping horizontal slot for task-specific controls. */
 .app-toolbar {
   display: flex;
@@ -171,6 +190,26 @@ select {
   opacity: 0.38;
   cursor: default;
   box-shadow: none;
+}
+
+/* Toast: fixed M3 snackbar bottom-center; tone picks the container tokens. */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 10;
+  max-width: min(440px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border-radius: var(--md-shape-small);
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--md-sys-color-on-surface) 30%, transparent);
+}
+
+.toast-error {
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
 }
 
 @media (width < 768px) {
