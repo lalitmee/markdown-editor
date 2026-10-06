@@ -1,0 +1,181 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+body {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-family: 'Roboto', sans-serif;
+  font-size: var(--md-typescale-body-large-font-size);
+  font-weight: var(--md-typescale-body-large-font-weight);
+  line-height: var(--md-typescale-body-large-line-height);
+  letter-spacing: var(--md-typescale-body-large-letter-spacing);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Icon ligatures: fixed outlined Material Symbols, not selectable text. */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* App shell: app-bar, app-toolbar, and remaining-height app-main rows. */
+.app-shell {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: 100dvh;
+}
+
+/* Top bar row: title and app-level actions. */
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+}
+
+/* Toolbar row: a wrapping horizontal slot for task-specific controls. */
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+/* Main region: equal panes separated by a one-pixel outline divider. */
+.app-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  min-height: 0;
+  background: var(--md-sys-color-outline);
+}
+
+/* Pane: independently scrollable, low-container surface for editor or preview. */
+.app-pane {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+  background: var(--md-sys-color-surface-container-low);
+}
+
+/* App-bar title: M3 title-large role. */
+.app-title {
+  font-size: var(--md-typescale-title-large-font-size);
+  line-height: var(--md-typescale-title-large-line-height);
+  font-weight: var(--md-typescale-title-large-font-weight);
+  letter-spacing: var(--md-typescale-title-large-letter-spacing);
+}
+
+/* Section heading: M3 title-medium role. */
+.section-title {
+  font-size: var(--md-typescale-title-medium-font-size);
+  line-height: var(--md-typescale-title-medium-line-height);
+  font-weight: var(--md-typescale-title-medium-font-weight);
+  letter-spacing: var(--md-typescale-title-medium-letter-spacing);
+}
+
+/* Label or caption: M3 label-medium role with secondary text color. */
+.label {
+  font-size: var(--md-typescale-label-medium-font-size);
+  line-height: var(--md-typescale-label-medium-line-height);
+  font-weight: var(--md-typescale-label-medium-font-weight);
+  letter-spacing: var(--md-typescale-label-medium-letter-spacing);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Raised action button: primary-colored pill with a shared state layer. */
+.button-raised {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border-radius: var(--md-shape-full);
+  padding: 0 24px;
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--md-sys-color-on-surface) 24%, transparent);
+  --button-state-color: var(--md-sys-color-on-primary);
+}
+
+/* Icon button: circular 48px touch target; supply an accessible name in markup. */
+.button-icon {
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  border-radius: var(--md-shape-full);
+  width: 48px;
+  padding: 0;
+  flex-shrink: 0;
+  --button-state-color: var(--md-sys-color-on-surface-variant);
+}
+
+.button-raised,
+.button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.button-raised:hover:not(:disabled),
+.button-icon:hover:not(:disabled) {
+  background-image: linear-gradient(color-mix(in srgb, var(--button-state-color) 8%, transparent), color-mix(in srgb, var(--button-state-color) 8%, transparent));
+}
+
+.button-raised:active:not(:disabled),
+.button-icon:active:not(:disabled) {
+  background-image: linear-gradient(color-mix(in srgb, var(--button-state-color) 12%, transparent), color-mix(in srgb, var(--button-state-color) 12%, transparent));
+}
+
+.button-raised:focus-visible,
+.button-icon:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 3px;
+}
+
+.button-raised:disabled,
+.button-icon:disabled {
+  opacity: 0.38;
+  cursor: default;
+  box-shadow: none;
+}
+
+@media (width < 768px) {
+  .app-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
